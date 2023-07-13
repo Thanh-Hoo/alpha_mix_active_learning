@@ -17,7 +17,8 @@ Additionally, it supports [MiniImageNet](https://www.kaggle.com/datasets/whitemo
 
 ## Training
 For running ALFA-Mix in a single setting, use the following script that by default uses 5 different initial random seeds: 
-```python3 train.py \
+```
+python3 train.py \
         --data_name HMDB51 --n_label 51 --data_dir datasets --log_dir your_log_directory \
         --n_init_lb 2 --n_query 204 --n_round 300 --learning_rate 0.0001 --n_epoch 50 --model vit_small \
         --strategy AlphaMixSampling --alpha_opt --save_checkpoints --batch_size 128 \
