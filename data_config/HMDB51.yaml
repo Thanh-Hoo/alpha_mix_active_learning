@@ -1,0 +1,12 @@
+train_dir: datasets/hmdb51 # dataset root dir
+
+n_label: 51
+img_size: 224
+n_training_set: 134152
+in_channels: 3
+log_dir: ./logs/HMDB51
+normalize: 
+  - [0.485, 0.456, 0.406]
+  - [0.229, 0.224, 0.225]
+
+# download: https://demoURL.com

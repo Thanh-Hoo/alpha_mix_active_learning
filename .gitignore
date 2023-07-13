@@ -1,0 +1,7 @@
+__pycache__
+
+# datasets
+datasets/
+
+# log folder
+your_log_directory/

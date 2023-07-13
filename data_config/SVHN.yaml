@@ -1,0 +1,11 @@
+train_dir: datasets/SVHN # dataset root dir
+
+n_label: 10
+img_size: 32
+n_training_set: 60000
+in_channels: 3
+log_dir: ./logs/SVHN
+
+normalize: 
+  - [0.4377, 0.4438, 0.4728]
+  - [0.1980, 0.2010, 0.1970]
