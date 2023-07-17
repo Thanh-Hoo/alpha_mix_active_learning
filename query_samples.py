@@ -149,7 +149,7 @@ def al_infer(infer_args, infer_params, strategy_name):
     model = Training(net, net_args, handler, infer_params, writer, device, init_model=True)
     
     cls = globals()[strategy_name]
-    strategy = cls(X, Y, sample_idx, None, None, model, infer_params, device, writer)
+    strategy = cls(X, Y, sample_idx, None, None, model, infer_args, device, writer)
     start_time = time.time()
 
     # Query samples
