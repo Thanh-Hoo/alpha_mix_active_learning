@@ -5,16 +5,6 @@
 import torch
 from torch import nn
 
-
-def conv3x3(in_channels, out_channels, **kwargs):
-    return nn.Sequential(
-        nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, **kwargs),
-        nn.BatchNorm2d(out_channels, track_running_stats=True),
-        nn.ReLU(),
-        nn.MaxPool2d(2)
-    )
-
-
 class CNN4Conv(nn.Module):
     def __init__(self, in_channels, n_label, img_size):
         super(CNN4Conv, self).__init__()
@@ -30,10 +20,10 @@ class CNN4Conv(nn.Module):
             raise NotImplemented
             
         self.features = nn.Sequential(
-            conv3x3(in_channels, hidden_size),
-            conv3x3(hidden_size, hidden_size),
-            conv3x3(hidden_size, hidden_size),
-            conv3x3(hidden_size, hidden_size)
+            self.conv3x3(in_channels, hidden_size),
+            self.conv3x3(hidden_size, hidden_size),
+            self.conv3x3(hidden_size, hidden_size),
+            self.conv3x3(hidden_size, hidden_size)
         )
 
         self.linear = nn.Linear(self.emb_dim, self.n_label)
@@ -48,6 +38,15 @@ class CNN4Conv(nn.Module):
         logits = self.linear(features)
         
         return logits, features
+    
+    
+    def conv3x3(self, in_channels, out_channels, **kwargs):
+        return nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, **kwargs),
+            nn.BatchNorm2d(out_channels, track_running_stats=True),
+            nn.ReLU(),
+            nn.MaxPool2d(2)
+        )
     
     def get_embedding_dim(self):
         return self.emb_dim
