@@ -40,8 +40,11 @@ class CNN4Conv(nn.Module):
         self.linear.bias.data.fill_(0)
 
     def forward(self, x, embedding=False):
-        features = self.features(x)
-        features = features.view((features.size(0), -1))
+        if embedding:
+            features = x
+        else:    
+            features = self.features(x)
+            features = features.view((features.size(0), -1))
         logits = self.linear(features)
         
         return logits, features
