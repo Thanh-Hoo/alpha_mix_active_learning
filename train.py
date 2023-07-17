@@ -260,11 +260,7 @@ def al_train_sub_experiment(args, train_args, train_params, strategy_name, gener
                     'in_channels': train_params['in_channels']}
     elif train_args.model == 'CNN4Conv':
         net = CNN4Conv
-        net_args = {'arch_name': train_args.model, 'n_label': train_params['n_label'],
-                    'pretrained': train_args.pretrained_model,
-                    'fine_tune_layers': train_args.fine_tune_layers,
-                    'emb_size': train_params['emb_size'],
-                    'in_channels': train_params['in_channels']}
+        net_args = {}
     else:
         net = VisionTransformerClassifier
         net_args = {'arch_name': train_args.model, 'n_label': train_params['n_label'],
