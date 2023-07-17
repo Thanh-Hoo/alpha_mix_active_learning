@@ -39,7 +39,7 @@ class CNN4Conv(nn.Module):
         self.linear = nn.Linear(self.emb_dim, self.n_label)
         self.linear.bias.data.fill_(0)
 
-    def forward(self, x):
+    def forward(self, x, embedding=False):
         features = self.features(x)
         features = features.view((features.size(0), -1))
         logits = self.linear(features)

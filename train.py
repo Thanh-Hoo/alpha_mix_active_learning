@@ -90,8 +90,6 @@ def setup_config(train_args) -> dict:
                      transforms.Normalize(*cfg['normalize']),
                  ])
     
-    
-    
     return cfg
 
 def supervised_learning(args):
