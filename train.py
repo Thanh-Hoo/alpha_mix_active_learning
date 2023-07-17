@@ -16,6 +16,7 @@ import torch
 from torch.utils.tensorboard import SummaryWriter
 from query_strategies import *
 from models.densenet import DenseNetClassifier
+from models.cnn4conv import CNN4Conv
 from models.vision_transformer import VisionTransformerClassifier
 import matplotlib.pyplot as plt
 import sys
@@ -252,6 +253,13 @@ def al_train_sub_experiment(args, train_args, train_params, strategy_name, gener
     # load network
     if len(train_args.model) >= 8 and train_args.model[:8] == 'densenet':
         net = DenseNetClassifier
+        net_args = {'arch_name': train_args.model, 'n_label': train_params['n_label'],
+                    'pretrained': train_args.pretrained_model,
+                    'fine_tune_layers': train_args.fine_tune_layers,
+                    'emb_size': train_params['emb_size'],
+                    'in_channels': train_params['in_channels']}
+    elif train_args.model == 'CNN4Conv':
+        net = CNN4Conv
         net_args = {'arch_name': train_args.model, 'n_label': train_params['n_label'],
                     'pretrained': train_args.pretrained_model,
                     'fine_tune_layers': train_args.fine_tune_layers,
