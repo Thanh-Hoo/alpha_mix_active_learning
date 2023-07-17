@@ -95,7 +95,7 @@ class AlphaMixSampling(Strategy):
 		return np.array(selected_idxs), ulb_embedding, pred_1, ulb_probs, u_selected_idxs, idxs_unlabeled[candidate]
 
 	def find_alpha(self):
-		assert self.args.alpha_num_mix <= self.args.n_label - (
+		assert self.args.alpha_num_mix <= self.model.clf.n_label - (
 			0 if self.args.alpha_use_highest_class_mix else 1), 'c_num_mix should not be greater than number of classes'
 
 		self.query_count += 1
@@ -149,7 +149,7 @@ class AlphaMixSampling(Strategy):
 			alpha_cap /= math.sqrt(embedding_size)
 			grads = grads.to(self.device)
 			
-		for i in range(self.args.n_label):
+		for i in range(self.model.clf.n_label):
 			emb = lb_embedding[Y == i]
 			if emb.size(0) == 0:
 				emb = lb_embedding

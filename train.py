@@ -89,9 +89,9 @@ def setup_config(train_args) -> dict:
                      transforms.ToTensor(),
                      transforms.Normalize(*cfg['normalize']),
                  ])
-    # args
     
-    train_args.add_argument('--n_label', type=int, default=cfg['n_label'])
+    
+    
     return cfg
 
 def supervised_learning(args):
