@@ -16,10 +16,10 @@ def conv3x3(in_channels, out_channels, **kwargs):
 
 
 class CNN4Conv(nn.Module):
-    def __init__(self, in_channels, num_classes, img_size):
+    def __init__(self, in_channels, n_label, img_size):
         super(CNN4Conv, self).__init__()
         in_channels = in_channels
-        num_classes = num_classes
+        self.n_label = n_label
         hidden_size = 64
         
         if img_size == 32:
@@ -36,7 +36,7 @@ class CNN4Conv(nn.Module):
             conv3x3(hidden_size, hidden_size)
         )
 
-        self.linear = nn.Linear(self.emb_dim, num_classes)
+        self.linear = nn.Linear(self.emb_dim, self.n_label)
         self.linear.bias.data.fill_(0)
 
     def forward(self, x):
