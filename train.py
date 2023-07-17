@@ -89,7 +89,11 @@ def setup_config(train_args) -> dict:
                      transforms.ToTensor(),
                      transforms.Normalize(*cfg['normalize']),
                  ])
-    return cfg
+    
+    # args
+    train_args['n_label'] = cfg['n_label']
+
+    return cfg, train_args
 
 def supervised_learning(args):
     # supervised training args
@@ -127,7 +131,7 @@ def supervised_learning(args):
 
     train_args, _ = train_parser.parse_known_args()
     
-    train_params = setup_config(train_args)
+    train_params, train_args = setup_config(train_args)
 
     if args.strategy == 'All':
         for strategy in ALL_STRATEGIES:
