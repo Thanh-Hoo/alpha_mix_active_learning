@@ -46,6 +46,7 @@ def setup_config(infer_args) -> dict:
     cfg['loader_tr_args'] = {'batch_size': infer_args.batch_size, 'num_workers': 2}
     cfg['loader_te_args'] = {'batch_size': infer_args.batch_size, 'num_workers': 2}
     
+    cfg['alpha_closed_form_approx'] = infer_args.alpha_closed_form_approx
     
     if infer_args.data_augmentation:
         cfg['test_transform'] = transforms.Compose(
