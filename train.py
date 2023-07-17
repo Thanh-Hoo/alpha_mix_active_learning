@@ -261,7 +261,7 @@ def al_train_sub_experiment(args, train_args, train_params, strategy_name, gener
     elif train_args.model == 'CNN4Conv':
         net = CNN4Conv
         net_args = {'img_size': train_params['img_size'], 
-                    'num_classes': train_params['n_label'],
+                    'n_label': train_params['n_label'],
                     'in_channels': train_params['in_channels']}
     else:
         net = VisionTransformerClassifier
