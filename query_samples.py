@@ -159,7 +159,9 @@ def al_infer(infer_args, infer_params, strategy_name):
 
     # update query results
     sample_idx[q_idxs] = True
+    result = [img_names[i] for i in range(len(sample_idx)) if sample_idx[i]]
     
+    print(f"LIST IMAGES SELECTED: {result}")
     
 if __name__ == '__main__':
     select_samples()
