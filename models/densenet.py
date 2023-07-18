@@ -12,8 +12,8 @@ class DenseNetClassifier(nn.Module):
 
         self.n_label = n_label
 
-        # model = getattr(models, arch_name)
-        # densenet = model(pretrained=pretrained)
+        model = getattr(models, arch_name)
+        densenet = model(pretrained=pretrained)
         state_dict = torch.load('/content/alpha_mix_active_learning/densenet121-a639ec97.pth')
         ####
         new_state_dict = OrderedDict()
