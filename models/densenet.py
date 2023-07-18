@@ -6,7 +6,7 @@ from models.utils import build_mlp
 
 
 class DenseNetClassifier(nn.Module):
-    def __init__(self, arch_name='resnet50', n_label=10, pretrained=True, dropout=0.,
+    def __init__(self, arch_name='densenet121', n_label=10, pretrained=True, dropout=0.,
                  fine_tune_layers=1, emb_size=256, in_channels=1):
         super(DenseNetClassifier, self).__init__()
 
