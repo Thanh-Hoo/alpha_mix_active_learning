@@ -14,10 +14,10 @@ class DenseNetClassifier(nn.Module):
 
         # model = getattr(models, arch_name)
         # densenet = model(pretrained=pretrained)
-        densenet = torch.hub.load('pytorch/vision:v0.10.0', 'densenet121', pretrained=True)
+        state_dict = torch.load('/content/alpha_mix_active_learning/densenet121-a639ec97.pth')
         ####
         new_state_dict = OrderedDict()
-        for k, v in densenet.items():
+        for k, v in state_dict.items():
             if 'denseblock' in k:
                 param = k.split(".")
                 k = ".".join(param[:-3] + [param[-3]+param[-2]] + [param[-1]])
