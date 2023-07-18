@@ -12,8 +12,9 @@ class DenseNetClassifier(nn.Module):
 
         self.n_label = n_label
 
-        model = getattr(models, arch_name)
-        densenet = model(pretrained=pretrained)
+        # model = getattr(models, arch_name, pretrained=True)
+        # densenet = model(pretrained=pretrained)
+        densenet = torch.hub.load('pytorch/vision:v0.10.0', 'densenet121', pretrained=True)
 
         # Remove linear layers
         modules = list(densenet.features.children())
