@@ -14,8 +14,9 @@ class DenseNetClassifier(nn.Module):
 
         model = getattr(models, arch_name)
         densenet = model(pretrained=pretrained)
-        state_dict = torch.load('/content/alpha_mix_active_learning/densenet121-a639ec97.pth')
+        
         ####
+        state_dict = torch.load('/content/alpha_mix_active_learning/densenet121-a639ec97.pth')
         new_state_dict = OrderedDict()
         for k, v in state_dict.items():
             if 'denseblock' in k:
