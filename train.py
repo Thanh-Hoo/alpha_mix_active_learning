@@ -201,7 +201,7 @@ def al_train_sub_experiment(args, train_args, train_params, strategy_name, gener
     result_writer.writerow(["Accuracy", "Duration"])
 
     # set seed
-    set_seeds(seed)
+    # set_seeds(seed)
 
     # load dataset
     X_tr, Y_tr, X_te, Y_te = get_dataset(train_args.data_name, train_params['train_dir'])
