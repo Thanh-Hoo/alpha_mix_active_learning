@@ -16,14 +16,14 @@ class DenseNetClassifier(nn.Module):
         densenet = model(pretrained=pretrained)
         
         # ####
-        # state_dict = torch.load('/content/alpha_mix_active_learning/densenet121-a639ec97.pth')
-        # new_state_dict = OrderedDict()
-        # for k, v in state_dict.items():
-        #     if 'denseblock' in k:
-        #         param = k.split(".")
-        #         k = ".".join(param[:-3] + [param[-3]+param[-2]] + [param[-1]])
-        #     new_state_dict[k] = v
-        # densenet.load_state_dict(new_state_dict)
+        state_dict = torch.load('densenet121-a639ec97.pth')
+        new_state_dict = OrderedDict()
+        for k, v in state_dict.items():
+            if 'denseblock' in k:
+                param = k.split(".")
+                k = ".".join(param[:-3] + [param[-3]+param[-2]] + [param[-1]])
+            new_state_dict[k] = v
+        densenet.load_state_dict(new_state_dict)
         # ####
         # Remove linear layers
         modules = list(densenet.features.children())
