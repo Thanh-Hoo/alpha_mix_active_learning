@@ -48,7 +48,6 @@ class DenseNetClassifier(nn.Module):
         if embedding:
             embd = x
         else:
-            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             embd = self.features(x)
             embd = F.relu(embd, inplace=True)
             embd = F.adaptive_avg_pool2d(embd, (1, 1))
