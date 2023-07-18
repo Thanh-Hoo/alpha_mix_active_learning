@@ -22,7 +22,7 @@ class DenseNetClassifier(nn.Module):
             modules[0] = nn.Conv2d(in_channels=in_channels, out_channels=conv.out_channels,
                                    kernel_size=conv.kernel_size, stride=conv.stride,
                                    padding=conv.padding, bias=conv.bias)
-            # pretrained = False
+            pretrained = False
 
         self.features = nn.Sequential(*modules)
 
