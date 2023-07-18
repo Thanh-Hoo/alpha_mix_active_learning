@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
 from models.utils import build_mlp
-
+from collections import OrderedDict
 
 class DenseNetClassifier(nn.Module):
     def __init__(self, arch_name='densenet121', n_label=10, pretrained=True, dropout=0.,
@@ -15,7 +15,15 @@ class DenseNetClassifier(nn.Module):
         # model = getattr(models, arch_name)
         # densenet = model(pretrained=pretrained)
         densenet = torch.hub.load('pytorch/vision:v0.10.0', 'densenet121', pretrained=True)
-
+        ####
+        new_state_dict = OrderedDict()
+        for k, v in densenet.items():
+            if 'denseblock' in k:
+                param = k.split(".")
+                k = ".".join(param[:-3] + [param[-3]+param[-2]] + [param[-1]])
+            new_state_dict[k] = v
+        densenet.load_state_dict(new_state_dict)
+        ####
         # Remove linear layers
         modules = list(densenet.features.children())
         if modules[0].in_channels != in_channels:
