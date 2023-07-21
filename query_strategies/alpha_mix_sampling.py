@@ -151,7 +151,7 @@ class AlphaMixSampling(Strategy):
 			
 		for i in range(self.model.clf.n_label):
 			emb = lb_embedding[Y == i]
-   
+			print(f"emb: {emb}")
 			
 			if emb.size(0) == 0:
 				emb = lb_embedding
@@ -178,7 +178,6 @@ class AlphaMixSampling(Strategy):
 					out = out.detach().cpu()
 
 					pc = out.argmax(dim=1) != pred_1
-					print(f'pc: {pc}')
 
 			torch.cuda.empty_cache()
 			if self.writer != None:
