@@ -178,7 +178,7 @@ class AlphaMixSampling(Strategy):
 					out = out.detach().cpu()
 
 					pc = out.argmax(dim=1) != pred_1
-					print('pc: {pc}')
+					print(f'pc: {pc}')
 
 			torch.cuda.empty_cache()
 			if self.writer != None:
