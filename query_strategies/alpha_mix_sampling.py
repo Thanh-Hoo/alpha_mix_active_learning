@@ -150,10 +150,10 @@ class AlphaMixSampling(Strategy):
 			grads = grads.to(self.device)
 			
 		for i in range(self.model.clf.n_label):
+			print(f'Y: {Y}')
 			emb = lb_embedding[Y == i]
 			
 			if emb.size(0) == 0:
-				print("aaaaaaaaaaaaaaaaaaaaaaaaaaa")
 				emb = lb_embedding
 			anchor_i = emb.mean(dim=0).view(1, -1).repeat(unlabeled_size, 1)
 
