@@ -151,6 +151,8 @@ class AlphaMixSampling(Strategy):
 			
 		for i in range(self.model.clf.n_label):
 			emb = lb_embedding[Y == i]
+   
+			print("emb: ",emb)
 			if emb.size(0) == 0:
 				emb = lb_embedding
 			anchor_i = emb.mean(dim=0).view(1, -1).repeat(unlabeled_size, 1)
