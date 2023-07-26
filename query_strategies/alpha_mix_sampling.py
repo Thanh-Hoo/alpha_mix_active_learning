@@ -21,7 +21,7 @@ class AlphaMixSampling(Strategy):
 		idxs_unlabeled = np.arange(self.n_pool)[~idxs]
 
 		ulb_probs, org_ulb_embedding = self.predict_prob_embed(self.X[idxs_unlabeled], self.Y[idxs_unlabeled])
-
+		print(ulb_probs)
 		probs_sorted, probs_sort_idxs = ulb_probs.sort(descending=True)
 		pred_1 = probs_sort_idxs[:, 0]
 
@@ -93,49 +93,6 @@ class AlphaMixSampling(Strategy):
 			print('picked %d samples from RandomSampling.' % (remained))
 
 		return np.array(selected_idxs), ulb_embedding, pred_1, ulb_probs, u_selected_idxs, idxs_unlabeled[candidate]
-
-	def find_alpha(self):
-		assert self.args.alpha_num_mix <= self.model.clf.n_label - (
-			0 if self.args.alpha_use_highest_class_mix else 1), 'c_num_mix should not be greater than number of classes'
-
-		self.query_count += 1
-
-		idxs_unlabeled = np.arange(self.n_pool)[self.idxs_lb]
-
-		ulb_probs, ulb_embedding = self.predict_prob_embed(self.X[idxs_unlabeled], self.Y[idxs_unlabeled])
-
-		probs_sorted, probs_sort_idxs = ulb_probs.sort(descending=True)
-		pred_1 = probs_sort_idxs[:, 0]
-		gt_lables = self.Y[idxs_unlabeled]
-		preds = pred_1 == gt_lables
-
-		ulb_embedding = ulb_embedding[preds]
-		ulb_probs = ulb_probs[preds]
-		pred_1 = pred_1[preds]
-
-		lb_embedding = self.get_embedding(self.X[self.idxs_lb], self.Y[self.idxs_lb])
-
-		alpha_cap = 0.
-		for i in range(self.args.alpha_alpha_scales if self.args.alpha_alpha_growth_method == 'exponential' else int(pow(2, self.args.alpha_alpha_scales) - 1)):
-			if self.args.alpha_alpha_growth_method == 'exponential':
-				alpha_cap = self.args.alpha_cap / (pow(2, self.args.alpha_alpha_scales - i - 1))
-			else:
-				#alpha_cap *= float(n * (1 if self.args.alpha_max_changes <= 0 else self.args.alpha_max_changes)) / pred_change.sum().item()
-				alpha_cap += self.args.alpha_cap / (pow(2, self.args.alpha_alpha_scales - 1))
-
-			tmp_pred_change, tmp_pred_change_sum, tmp_min_alphas, tmp_min_added_feats, tmp_cf_probs, _, tmp_min_mixing_labels, tmp_min_cf_feats = \
-				self.find_candidate_set(
-					lb_embedding, ulb_embedding, pred_1, ulb_probs, probs_sort_idxs, alpha_cap=alpha_cap,
-					Y=self.Y[self.idxs_lb])
-
-			if tmp_pred_change.sum() > 0:
-				print('selected alpha_max %f' % alpha_cap)
-				if self.writer != None:
-					self.writer.add_scalar('stats/alpha_cap', alpha_cap, self.query_count)
-				return alpha_cap
-
-		print('no labelled sample change!!!')
-		return 0.5
 
 	def find_candidate_set(self, lb_embedding, ulb_embedding, pred_1, ulb_probs, alpha_cap, Y, grads):
 
