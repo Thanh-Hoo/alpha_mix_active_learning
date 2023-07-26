@@ -21,7 +21,6 @@ class AlphaMixSampling(Strategy):
 		idxs_unlabeled = np.arange(self.n_pool)[~idxs]
 
 		ulb_probs, org_ulb_embedding = self.predict_prob_embed(self.X[idxs_unlabeled], self.Y[idxs_unlabeled])
-		print(f'ulb_probs: {ulb_probs.srorted()}')
 		probs_sorted, probs_sort_idxs = ulb_probs.sort(descending=True)
 		pred_1 = probs_sort_idxs[:, 0]
 
