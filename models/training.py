@@ -293,8 +293,8 @@ class Training(object):
                 for x, y, idxs in loader_te:
                     x, y = x.to(self.device), y.to(self.device)
                     out, e1 = self.clf(x)
-                    print(f"out: {out}")
                     prob = F.softmax(out, dim=1)
+                    print(f"prob: {prob}")
                     probs[idxs] = prob.cpu()
                     embeddings[idxs] = e1.cpu()
         else:
