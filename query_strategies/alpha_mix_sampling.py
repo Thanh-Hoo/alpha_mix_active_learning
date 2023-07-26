@@ -22,6 +22,8 @@ class AlphaMixSampling(Strategy):
 
 		ulb_probs, org_ulb_embedding = self.predict_prob_embed(self.X[idxs_unlabeled], self.Y[idxs_unlabeled])
 		probs_sorted, probs_sort_idxs = ulb_probs.sort(descending=True)
+		print(f"probs_sort_idxs: {probs_sort_idxs}")
+  		print(f"probs_sorted: {probs_sorted}")
 		pred_1 = probs_sort_idxs[:, 0]
 
 		lb_probs, org_lb_embedding = self.predict_prob_embed(self.X[self.idxs_lb], self.Y[self.idxs_lb])

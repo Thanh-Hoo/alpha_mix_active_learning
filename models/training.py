@@ -294,7 +294,6 @@ class Training(object):
                     x, y = x.to(self.device), y.to(self.device)
                     out, e1 = self.clf(x)
                     prob = F.softmax(out, dim=1)
-                    print(f"prob: {prob.cpu()}")
                     probs[idxs] = prob.cpu()
                     embeddings[idxs] = e1.cpu()
         else:
