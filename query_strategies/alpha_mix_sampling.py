@@ -63,8 +63,6 @@ class AlphaMixSampling(Strategy):
 
 			if candidate.sum() > n:
 				break
-		print(f'candidate: {candidate}')
-		print(f'candidate.sum(): {candidate.sum()}')
 		if candidate.sum() > 0:
 			'''print('Number of inconsistencies: %d' % (int(candidate.sum().item())))
 			print('alpha_mean_mean: %f' % min_alphas[candidate].mean(dim=1).mean().item())
@@ -81,6 +79,7 @@ class AlphaMixSampling(Strategy):
 			selected_idxs = self.sample(min(n, candidate.sum().item()), feats=c_alpha)
 			u_selected_idxs = candidate.nonzero(as_tuple=True)[0][selected_idxs]
 			selected_idxs = idxs_unlabeled[candidate][selected_idxs]
+			print(f'idxs_unlabeled: {idxs_unlabeled}')
 		else:
 			selected_idxs = np.array([], dtype=np.int)
 
