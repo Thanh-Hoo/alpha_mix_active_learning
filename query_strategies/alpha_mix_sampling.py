@@ -75,7 +75,6 @@ class AlphaMixSampling(Strategy):
 				self.writer.add_scalar('stats/alpha_mean_std', min_alphas[candidate].std(dim=1).mean().item(), self.query_count)
 
 			c_alpha = F.normalize(org_ulb_embedding[candidate].view(candidate.sum(), -1), p=2, dim=1).detach()
-			print(f'candidate: {candidate.sum()}')
 			selected_idxs = self.sample(min(n, candidate.sum().item()), feats=c_alpha)
 			u_selected_idxs = candidate.nonzero(as_tuple=True)[0][selected_idxs]
 			selected_idxs = idxs_unlabeled[candidate][selected_idxs]
