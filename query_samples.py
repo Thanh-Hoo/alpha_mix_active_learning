@@ -55,6 +55,18 @@ def setup_config(infer_args) -> dict:
                  ])
     return cfg
 
+def setup_data(data_name, infer_params):
+    # load dataset
+    X_q, Y_q, X_tr, Y_tr = get_dataset(data_name, infer_params, infer=True)
+    
+    # Process data
+    X = np.concatenate((X_tr, X_q))
+    Y = torch.cat((Y_tr, Y_q))  
+      
+    sample_idx = np.zeros(len(X), dtype=bool)
+    sample_idx[np.arange(len(X_tr))[:len(X_tr)]] = True
+    return X, Y, sample_idx
+
 def select_samples():
     infer_parser = argparse.ArgumentParser(description="Query samples parser for training hyper-parrameters at ech checkpoint.")
     infer_parser.add_argument('--model', type=str, default='vit_small')
@@ -125,24 +137,10 @@ def load_network(infer_params, structure_name, model_path):
     return net, net_args
 
 def al_infer(infer_args, infer_params, strategy_name):
-    # load dataset
-    X_q, Y_q, X_tr, Y_tr = get_dataset(infer_args.data_name, infer_params['train_dir'], infer=True)
     
-    ##################################################################################################################################
-    # Process data to test function
-    np.random.shuffle(X_q)
-    np.random.shuffle(Y_q)
-    np.random.shuffle(X_tr)
-    np.random.shuffle(Y_tr)
-    X_q, Y_q, X_tr, Y_tr = X_q[:1000], Y_q[:1000], X_tr[:10000], Y_tr[:10000]
+    X, Y, sample_idx = setup_data(infer_args.data_name, infer_params['train_dir'])
     
-    print(X_q)
-    X = X_tr
-    Y = Y_tr
-    ##################################################################################################################################
-    
-    sample_idx = np.zeros(len(X_q), dtype=bool)
-    
+    image_name_querySet = X
     # Update infer parameters
     infer_params['emb_size'] = infer_args.emb_size  #256
     infer_params['dim'] = np.shape(X)[1:]
@@ -174,7 +172,7 @@ def al_infer(infer_args, infer_params, strategy_name):
 
     # update query results
     sample_idx[q_idxs] = True
-    result = [X_q[i] for i in range(len(sample_idx)) if sample_idx[i]]
+    result = [image_name_querySet[i] for i in range(len(sample_idx)) if sample_idx[i]]
     
     print(f"LIST IMAGES SELECTED: {result}")
     
