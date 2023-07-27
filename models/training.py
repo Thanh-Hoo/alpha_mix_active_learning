@@ -304,10 +304,12 @@ class Training(object):
                     prob = F.softmax(out, dim=1)
                     probs[idxs] = prob.cpu()
                     embeddings[idxs] = e1.cpu()
+                    
+                    print(f"prob.cpu(): {prob.cpu()}")
                     confuse_scores[idxs] = self.calculate_entropy(prob.cpu())
                     f = open("demo.txt",'a')
                     f.writelines(f'{confuse_scores} \n')
-            return probs, embeddings
+
         else:
             self.clf.train()
             for x, y, idxs in loader_te:
@@ -316,7 +318,7 @@ class Training(object):
                 prob = F.softmax(out, dim=1)
                 probs[idxs] = prob.cpu()
                 embeddings[idxs] = e1.cpu()
-            return probs, embeddings
+        return probs, embeddings
 
     def predict_all_representations(self, X, Y):
         loader_te = DataLoader(self.handler(X, Y, transform=self.args['test_transform']),

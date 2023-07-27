@@ -91,13 +91,6 @@ class AlphaMixSampling(Strategy):
 
 		return np.array(selected_idxs), ulb_embedding, pred_1, ulb_probs, u_selected_idxs, idxs_unlabeled[candidate]
 
-	def calculate_entropy(self, probabilities):
-		entropy = 0
-		for prob in probabilities:
-			if prob > 0:
-				entropy -= prob * math.log(prob, 2) 
-		return entropy
-
 	def find_candidate_set(self, lb_embedding, ulb_embedding, pred_1, 
                         	ulb_probs, alpha_cap, Y, grads):
 
