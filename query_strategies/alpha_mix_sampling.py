@@ -168,10 +168,10 @@ class AlphaMixSampling(Strategy):
 		cluster_learner.fit(feats)
 
 		cluster_idxs = cluster_learner.predict(feats)
-		print(f'cluster_idxs: {cluster_idxs}')
 		centers = cluster_learner.cluster_centers_[cluster_idxs]
 		dis = (feats - centers) ** 2
 		dis = dis.sum(axis=1)
+		print(f'dis: {dis}')
 		return np.array(
 			[np.arange(feats.shape[0])[cluster_idxs == i][dis[cluster_idxs == i].argmin()] for i in range(n) if
 			 (cluster_idxs == i).sum() > 0])
