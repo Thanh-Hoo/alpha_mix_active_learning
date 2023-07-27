@@ -28,15 +28,25 @@ def get_SVHN(data_dir):
 
 def get_datasets(data_dir, infer=False):
     if infer:
-        X, Y, img_name= [], [], []
-        with open(os.path.join(data_dir, 'data.txt'), 'r') as f:
+        
+        X_tr, Y_tr, X_q, Y_q, img_name = [], [], [], [], []
+        
+        with open(os.path.join(data_dir, 'train.txt'), 'r') as f:
+            for item in f.readlines():
+                feilds = item.strip()
+                name, label = feilds.split(' ')
+                X_tr.append(os.path.join(data_dir, name))
+                Y_tr.append(int(label))
+        
+        with open(os.path.join(data_dir, 'data_query.txt'), 'r') as f:
             for item in f.readlines():
                 feilds = item.strip()
                 name, label = feilds.split(' ')
                 img_name.append(os.path.join(data_dir, name))
-                X.append(os.path.join(data_dir, name))
-                Y.append(int(label))
-        return np.array(img_name), np.array(X), torch.from_numpy(np.array(Y))
+                X_q.append(os.path.join(data_dir, name))
+                Y_q.append('None')
+        return np.array(img_name), np.array(X_q), torch.from_numpy(np.array(Y_q)), np.array(X_tr), torch.from_numpy(np.array(Y_tr))
+    
     else:
         X_tr, Y_tr, X_te, Y_te = [], [], [], []
         with open(os.path.join(data_dir, 'train.txt'), 'r') as f:

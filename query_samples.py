@@ -126,8 +126,12 @@ def load_network(infer_params, structure_name, model_path):
 
 def al_infer(infer_args, infer_params, strategy_name):
     # load dataset
-    img_names, X, Y = get_dataset(infer_args.data_name, infer_params['train_dir'], infer=True)
+    img_names, X, Y, X_tr, Y_tr = get_dataset(infer_args.data_name, infer_params['train_dir'], infer=True)
     sample_idx = np.zeros(len(img_names), dtype=bool)
+    
+    print(Y_tr)
+    
+    
     # Update infer parameters
     infer_params['emb_size'] = infer_args.emb_size  #256
     infer_params['dim'] = np.shape(X)[1:]

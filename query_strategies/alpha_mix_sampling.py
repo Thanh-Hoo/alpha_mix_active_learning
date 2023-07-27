@@ -78,7 +78,6 @@ class AlphaMixSampling(Strategy):
 
 			selected_idxs = self.sample(min(n, candidate.sum().item()), feats=c_alpha)
 			u_selected_idxs = candidate.nonzero(as_tuple=True)[0][selected_idxs]
-			print(f'selected_idxs: {selected_idxs}')
 			selected_idxs = idxs_unlabeled[candidate][selected_idxs]
 			
 		else:
