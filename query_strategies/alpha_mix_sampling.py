@@ -163,12 +163,12 @@ class AlphaMixSampling(Strategy):
 		return alpha
 
 	def sample(self, n, feats):
-		print(f'feats: {feats.size()}')
 		feats = feats.numpy()
 		cluster_learner = KMeans(n_clusters=n)
 		cluster_learner.fit(feats)
 
 		cluster_idxs = cluster_learner.predict(feats)
+		print(f'cluster_idxs: {cluster_idxs}')
 		centers = cluster_learner.cluster_centers_[cluster_idxs]
 		dis = (feats - centers) ** 2
 		dis = dis.sum(axis=1)
