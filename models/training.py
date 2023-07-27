@@ -284,7 +284,7 @@ class Training(object):
     def calculate_entropy(self, probabilities):
         entropy = 0
         for prob in probabilities:
-            if prob > 0:
+            if len(prob) > 0:
                 entropy -= prob * math.log(prob, 2) 
         return entropy
     
