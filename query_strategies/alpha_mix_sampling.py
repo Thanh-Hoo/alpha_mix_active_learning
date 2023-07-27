@@ -163,7 +163,7 @@ class AlphaMixSampling(Strategy):
 		return alpha
 
 	def sample(self, n, feats):
-		print(f'feats: {feats}')
+		print(f'feats: {feats.shape()}')
 		feats = feats.numpy()
 		cluster_learner = KMeans(n_clusters=n)
 		cluster_learner.fit(feats)
