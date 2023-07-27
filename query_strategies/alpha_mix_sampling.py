@@ -22,7 +22,6 @@ class AlphaMixSampling(Strategy):
 
 		ulb_probs, org_ulb_embedding = self.predict_prob_embed(self.X[idxs_unlabeled], self.Y[idxs_unlabeled])
 		probs_sorted, probs_sort_idxs = ulb_probs.sort(descending=True)
-		print(f"probs_sort_idxs: {probs_sort_idxs[0]}")
 		print(f"probs_sorted: {probs_sorted[0]}")
 		pred_1 = probs_sort_idxs[:, 0]
 
@@ -95,7 +94,15 @@ class AlphaMixSampling(Strategy):
 
 		return np.array(selected_idxs), ulb_embedding, pred_1, ulb_probs, u_selected_idxs, idxs_unlabeled[candidate]
 
-	def find_candidate_set(self, lb_embedding, ulb_embedding, pred_1, ulb_probs, alpha_cap, Y, grads):
+	def calculate_entropy(self, probabilities):
+		entropy = 0
+		for prob in probabilities:
+			if prob > 0:
+				entropy -= prob * math.log(prob, 2) 
+		return entropy
+
+	def find_candidate_set(self, lb_embedding, ulb_embedding, pred_1, 
+                        	ulb_probs, alpha_cap, Y, grads):
 
 		unlabeled_size = ulb_embedding.size(0)
 		embedding_size = ulb_embedding.size(1)
@@ -156,6 +163,7 @@ class AlphaMixSampling(Strategy):
 		return alpha
 
 	def sample(self, n, feats):
+		print(f'feats: {feats}')
 		feats = feats.numpy()
 		cluster_learner = KMeans(n_clusters=n)
 		cluster_learner.fit(feats)
