@@ -305,7 +305,7 @@ class Training(object):
                     embeddings[idxs] = e1.cpu()
                     
                     print(f"prob.cpu(): {prob.cpu()}")
-                    confuse_scores = self.calculate_entropy(prob.cpu())
+                    confuse_scores = self.calculate_entropy(prob.cpu().tolist())
                     f = open("demo.txt",'a')
                     f.writelines(f'{confuse_scores} \n')
 
