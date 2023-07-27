@@ -80,6 +80,7 @@ class AlphaMixSampling(Strategy):
 			c_alpha = F.normalize(org_ulb_embedding[candidate].view(candidate.sum(), -1), p=2, dim=1).detach()
 
 			selected_idxs = self.sample(min(n, candidate.sum().item()), feats=c_alpha)
+			print(f'selected_idxs: {selected_idxs}')
 			u_selected_idxs = candidate.nonzero(as_tuple=True)[0][selected_idxs]
 			selected_idxs = idxs_unlabeled[candidate][selected_idxs]
 		else:
@@ -171,7 +172,6 @@ class AlphaMixSampling(Strategy):
 		centers = cluster_learner.cluster_centers_[cluster_idxs]
 		dis = (feats - centers) ** 2
 		dis = dis.sum(axis=1)
-		print(f'dis: {dis}')
 		return np.array(
 			[np.arange(feats.shape[0])[cluster_idxs == i][dis[cluster_idxs == i].argmin()] for i in range(n) if
 			 (cluster_idxs == i).sum() > 0])
