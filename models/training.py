@@ -293,7 +293,6 @@ class Training(object):
                                shuffle=False, **self.args['loader_te_args'])
 
         probs = torch.zeros([len(Y), self.clf.n_label])
-        confuse_scores = torch.zeros([len(Y), self.clf.n_label])
         embeddings = torch.zeros([len(Y), self.clf.get_embedding_dim()])
         if eval:
             self.clf.eval()
@@ -306,7 +305,7 @@ class Training(object):
                     embeddings[idxs] = e1.cpu()
                     
                     print(f"prob.cpu(): {prob.cpu()}")
-                    confuse_scores[idxs] = self.calculate_entropy(prob.cpu())
+                    confuse_scores = self.calculate_entropy(prob.cpu())
                     f = open("demo.txt",'a')
                     f.writelines(f'{confuse_scores} \n')
 
