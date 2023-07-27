@@ -126,11 +126,22 @@ def load_network(infer_params, structure_name, model_path):
 
 def al_infer(infer_args, infer_params, strategy_name):
     # load dataset
-    img_names, X, Y, X_tr, Y_tr = get_dataset(infer_args.data_name, infer_params['train_dir'], infer=True)
-    sample_idx = np.zeros(len(img_names), dtype=bool)
+    X_q, Y_q, X_tr, Y_tr = get_dataset(infer_args.data_name, infer_params['train_dir'], infer=True)
     
-    print(Y_tr)
+    ##################################################################################################################################
+    # Process data to test function
+    np.random.shuffle(X_q)
+    np.random.shuffle(Y_q)
+    np.random.shuffle(X_tr)
+    np.random.shuffle(Y_tr)
+    X_q, Y_q, X_tr, Y_tr = X_q[:1000], Y_q[:1000], X_tr[:10000], Y_tr[:10000]
     
+    print(X_q)
+    X = X_tr
+    Y = Y_tr
+    ##################################################################################################################################
+    
+    sample_idx = np.zeros(len(X_q), dtype=bool)
     
     # Update infer parameters
     infer_params['emb_size'] = infer_args.emb_size  #256
@@ -163,7 +174,7 @@ def al_infer(infer_args, infer_params, strategy_name):
 
     # update query results
     sample_idx[q_idxs] = True
-    result = [img_names[i] for i in range(len(sample_idx)) if sample_idx[i]]
+    result = [X_q[i] for i in range(len(sample_idx)) if sample_idx[i]]
     
     print(f"LIST IMAGES SELECTED: {result}")
     
