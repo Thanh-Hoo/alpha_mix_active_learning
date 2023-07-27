@@ -64,7 +64,7 @@ class AlphaMixSampling(Strategy):
 			if candidate.sum() > n:
 				break
 		if candidate.sum() > 0:
-			'''print('Number of inconsistencies: %d' % (int(candidate.sum().item())))
+			print('Number of inconsistencies: %d' % (int(candidate.sum().item())))
 			print('alpha_mean_mean: %f' % min_alphas[candidate].mean(dim=1).mean().item())
 			print('alpha_std_mean: %f' % min_alphas[candidate].mean(dim=1).std().item())
 			print('alpha_mean_std %f' % min_alphas[candidate].std(dim=1).mean().item())
@@ -72,10 +72,10 @@ class AlphaMixSampling(Strategy):
 				self.writer.add_scalar('stats/candidate_set_size', candidate.sum().item(), self.query_count)
 				self.writer.add_scalar('stats/alpha_mean_mean', min_alphas[candidate].mean(dim=1).mean().item(), self.query_count)
 				self.writer.add_scalar('stats/alpha_std_mean', min_alphas[candidate].mean(dim=1).std().item(), self.query_count)
-				self.writer.add_scalar('stats/alpha_mean_std', min_alphas[candidate].std(dim=1).mean().item(), self.query_count)'''
+				self.writer.add_scalar('stats/alpha_mean_std', min_alphas[candidate].std(dim=1).mean().item(), self.query_count)
 
 			c_alpha = F.normalize(org_ulb_embedding[candidate].view(candidate.sum(), -1), p=2, dim=1).detach()
-			print(f'candidate: {candidate}')
+			print(f'candidate: {candidate.sum()}')
 			selected_idxs = self.sample(min(n, candidate.sum().item()), feats=c_alpha)
 			u_selected_idxs = candidate.nonzero(as_tuple=True)[0][selected_idxs]
 			selected_idxs = idxs_unlabeled[candidate][selected_idxs]
