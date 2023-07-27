@@ -43,7 +43,7 @@ def get_datasets(data_dir, infer=False):
                 feilds = item.strip()
                 name, label = feilds.split(' ')
                 X_q.append(os.path.join(data_dir, name))
-                Y_q.append('None')
+                Y_q.append(0)
         return np.array(X_q), torch.from_numpy(np.array(Y_q)), np.array(X_tr), torch.from_numpy(np.array(Y_tr))
     
     else:
