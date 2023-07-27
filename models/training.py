@@ -283,6 +283,7 @@ class Training(object):
 
     def calculate_entropy(self, probabilities):
         entropy = 0
+        print(f"probabilities: {probabilities}")
         for prob in probabilities:
             if prob > 0:
                 entropy -= prob * math.log(prob, 2) 
@@ -304,7 +305,6 @@ class Training(object):
                     probs[idxs] = prob.cpu()
                     embeddings[idxs] = e1.cpu()
                     
-                    print(f"prob.cpu(): {prob.cpu()}")
                     confuse_scores = self.calculate_entropy(prob.cpu()[0].tolist())
                     f = open("demo.txt",'a')
                     f.writelines(f'{confuse_scores} \n')
