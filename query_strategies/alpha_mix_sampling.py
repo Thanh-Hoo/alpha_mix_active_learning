@@ -168,7 +168,7 @@ class AlphaMixSampling(Strategy):
 		cluster_learner.fit(feats)
 
 		cluster_idxs = cluster_learner.predict(feats)
-		print(f'cluster_idxs: {cluster_idxs}')
+		print(f'cluster_idxs: {len(cluster_idxs)}')
 		centers = cluster_learner.cluster_centers_[cluster_idxs]
 		dis = (feats - centers) ** 2
 		dis = dis.sum(axis=1)
