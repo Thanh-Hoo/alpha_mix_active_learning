@@ -281,13 +281,6 @@ class Training(object):
 
         return probs
 
-    def calculate_entropy(self, probabilities):
-        entropy = 0
-        for prob in probabilities:
-            if prob > 0:
-                entropy -= prob * math.log(prob, 2) 
-        return entropy
-    
     def predict_prob_embed(self, X, Y, eval=True):
         loader_te = DataLoader(self.handler(X, Y, transform=self.args['test_transform']),
                                shuffle=False, **self.args['loader_te_args'])
@@ -303,11 +296,6 @@ class Training(object):
                     prob = F.softmax(out, dim=1)
                     probs[idxs] = prob.cpu()
                     embeddings[idxs] = e1.cpu()
-                    
-                    confuse_scores = self.calculate_entropy(prob.cpu()[0].tolist())
-                    f = open("demo.txt",'a')
-                    f.writelines(f'{confuse_scores} \n')
-
         else:
             self.clf.train()
             for x, y, idxs in loader_te:
